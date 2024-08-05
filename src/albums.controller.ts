@@ -8,10 +8,12 @@ import {
   Post,
   Query,
   Redirect,
-  Req,
-  Res,
 } from '@nestjs/common';
-import { Request, Response } from 'express';
+
+interface VideoDTO {
+  name: string;
+  topic: string;
+}
 
 @Controller('/albums')
 export class AlbumController {
@@ -52,7 +54,7 @@ export class AlbumController {
   }
 
   @Post('/create')
-  createAlbum(@Body() reqData: Record<string, any>) {
+  createAlbum(@Body() reqData: VideoDTO) {
     console.log(reqData);
     const arr = {
       name: reqData.name,
