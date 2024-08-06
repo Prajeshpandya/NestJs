@@ -12,8 +12,10 @@ import { user_dep } from './user_dep.controller';
   // second value: then pass the reference of this class
 
   // providers: [UserStore],
-  providers: [UserStore, {provide:"name of another instance", useExisting:UserStore}], 
+  // providers: [UserStore, {provide:"name of another instance", useExisting:UserStore}], 
   // means when we access the provide it return the alreadyExisting Store.
+
+  providers:[{provide:"DATABASE_NAME" ,useValue:"DATA"} ] //we can also pass the string,array,objects value for the deps.
 
 })
 export class AppModule {}
