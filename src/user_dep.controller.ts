@@ -17,8 +17,11 @@ import { Subject } from 'rxjs';
 
 @Controller()
 export class user_dep {
-  constructor(@Inject('DATABASE_CONNECTION') private eventbus: Subject<any>) {
-    // console.log(this.eventbus);
+  constructor(
+    @Inject('DATABASE_CONNECTION') private eventbus: Subject<any>,
+    @Inject('EVENT_STORE') private readonly eventStore: Subject<any>,
+  ) {
+    console.log(this.eventStore);
+    console.log(this.eventbus);
   }
-
 }

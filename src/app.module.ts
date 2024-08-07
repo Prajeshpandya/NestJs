@@ -61,12 +61,12 @@ const connection = async (options: Record<string, any>) => {
   //     inject: [EnvConfig, { token: 'limit', optional: true }], //we can also make it optional
   //     //also we can pass the class as a dependecies
   //   },
-  //   // {
-  //   //   provide: 'limit',
-  //   //   useValue: 2,
-  //   // },
-  // ],
+  //   {
+  //     provide: 'limit',
+  //     useValue: 2,
+  //   },
 
+  // ],
   // For async useFactory.. like untill this not resolve the all the services will wait
 
   providers: [
@@ -76,12 +76,29 @@ const connection = async (options: Record<string, any>) => {
         const data = await connection(options);
         return data;
       },
-      inject:["DB_OPTIONS"]
+      inject: ['DB_OPTIONS'],
     },
     {
       provide: 'DB_OPTIONS',
       useValue: { url: '', user: '', password: '' },
     },
+    {
+      provide: 'EVENT_STORE',
+      useFactory: (config: EnvConfig, limit: number = 4) => {
+        const eventBus =
+          config.envType === 'DEV'
+            ? new ReplaySubject(2)
+            : new BehaviorSubject(null);
+        console.log(limit);
+        return eventBus;
+      },
+      inject: [EnvConfig, { token: 'limit', optional: true }], //we can also make it optional
+    },
+    {
+      provide: 'limit',
+      useValue: 2, // Provide a value for 'limit'
+    },
+    EnvConfig, // Register EnvConfig for injection
   ],
 })
 export class AppModule {}
