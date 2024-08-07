@@ -8,6 +8,7 @@ import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { config } from 'process';
 import { resolve } from 'path';
 import { rejects } from 'assert';
+import { test } from './test.controller';
 
 const IS_DEV = true;
 
@@ -28,7 +29,7 @@ const connection = async (options: Record<string, any>) => {
   });
 };
 @Module({
-  controllers: [UsersController, AlbumController, Crud, user_dep],
+  controllers: [UsersController, AlbumController, Crud, user_dep,test],
   // providers:[{provide:UserStore,useClass:UserStore}]              //this class will be use as a dependencies , it will create instance if that class
   //first value is injection token(with which name we can access that instance )
   // second value: then pass the reference of this class
@@ -70,6 +71,7 @@ const connection = async (options: Record<string, any>) => {
   // For async useFactory.. like untill this not resolve the all the services will wait
 
   providers: [
+    UserStore,
     {
       provide: 'DATABASE_CONNECTION',
       useFactory: async (options) => {
@@ -98,7 +100,9 @@ const connection = async (options: Record<string, any>) => {
       provide: 'limit',
       useValue: 2, // Provide a value for 'limit'
     },
-    EnvConfig, // Register EnvConfig for injection
+    EnvConfig, //NOTE :-> Register EnvConfig for injection because ITS A CLASS DIRECTLY pass to inject array..
+    
+    
   ],
 })
 export class AppModule {}

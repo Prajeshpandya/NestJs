@@ -1,4 +1,4 @@
-import { Controller, Inject, Optional } from '@nestjs/common';
+import { Controller, Get, Inject, Optional } from '@nestjs/common';
 import { UserStore } from './users.store';
 import { Subject } from 'rxjs';
 
@@ -15,13 +15,21 @@ import { Subject } from 'rxjs';
 
 //useFactory understanding!!
 
-@Controller()
+@Controller('/users' ,)
 export class user_dep {
   constructor(
     @Inject('DATABASE_CONNECTION') private eventbus: Subject<any>,
     @Inject('EVENT_STORE') private readonly eventStore: Subject<any>,
+    private readonly userStore: UserStore
   ) {
     console.log(this.eventStore);
     console.log(this.eventbus);
+    console.log(userStore)
+  }
+
+  @Get()
+  getUsers() {
+    this.userStore.getUsers();
+    return "Usersss..."
   }
 }
