@@ -9,27 +9,29 @@ import { config } from 'process';
 import { resolve } from 'path';
 import { rejects } from 'assert';
 import { test } from './test.controller';
+import { Userservices } from './users.services';
 
-const IS_DEV = true;
+// const IS_DEV = true;
 
-@Injectable()
-class EnvConfig {
-  envType: 'DEV' | 'STAGE' | 'PROD';
-  constructor() {
-    this.envType = 'DEV';
-  }
-}
+// @Injectable()
+// class EnvConfig {
+//   envType: 'DEV' | 'STAGE' | 'PROD';
+//   constructor() {
+//     this.envType = 'DEV';
+//   }
+// }
 
-const connection = async (options: Record<string, any>) => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      console.log(options);
-      resolve('Connection established');
-    }, 2000);
-  });
-};
+// const connection = async (options: Record<string, any>) => {
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       console.log(options);
+//       resolve('Connection established');
+//     }, 2000);
+//   });
+// };
+
 @Module({
-  controllers: [UsersController, AlbumController, Crud, user_dep,test],
+  // controllers: [UsersController, AlbumController, Crud, user_dep, test],
   // providers:[{provide:UserStore,useClass:UserStore}]              //this class will be use as a dependencies , it will create instance if that class
   //first value is injection token(with which name we can access that instance )
   // second value: then pass the reference of this class
@@ -70,39 +72,43 @@ const connection = async (options: Record<string, any>) => {
   // ],
   // For async useFactory.. like untill this not resolve the all the services will wait
 
-  providers: [
-    UserStore,
-    {
-      provide: 'DATABASE_CONNECTION',
-      useFactory: async (options) => {
-        const data = await connection(options);
-        return data;
-      },
-      inject: ['DB_OPTIONS'],
-    },
-    {
-      provide: 'DB_OPTIONS',
-      useValue: { url: '', user: '', password: '' },
-    },
-    {
-      provide: 'EVENT_STORE',
-      useFactory: (config: EnvConfig, limit: number = 4) => {
-        const eventBus =
-          config.envType === 'DEV'
-            ? new ReplaySubject(2)
-            : new BehaviorSubject(null);
-        console.log(limit);
-        return eventBus;
-      },
-      inject: [EnvConfig, { token: 'limit', optional: true }], //we can also make it optional
-    },
-    {
-      provide: 'limit',
-      useValue: 2, // Provide a value for 'limit'
-    },
-    EnvConfig, //NOTE :-> Register EnvConfig for injection because ITS A CLASS DIRECTLY pass to inject array..
-    
-    
-  ],
+  //aysnc and sync Dependecies...
+  // providers: [
+  //   UserStore,
+  //   {
+  //     provide: 'DATABASE_CONNECTION',
+  //     useFactory: async (options) => {
+  //       const data = await connection(options);
+  //       return data;
+  //     },
+  //     inject: ['DB_OPTIONS'],
+  //   },
+  //   {
+  //     provide: 'DB_OPTIONS',
+  //     useValue: { url: '', user: '', password: '' },
+  //   },
+  //   {
+  //     provide: 'EVENT_STORE',
+  //     useFactory: (config: EnvConfig, limit: number = 4) => {
+  //       const eventBus =
+  //         config.envType === 'DEV'
+  //           ? new ReplaySubject(2)
+  //           : new BehaviorSubject(null);
+  //       console.log(limit);
+  //       return eventBus;
+  //     },
+  //     inject: [EnvConfig, { token: 'limit', optional: true }], //we can also make it optional
+  //   },
+  //   {
+  //     provide: 'limit',
+  //     useValue: 2, // Provide a value for 'limit'
+  //   },
+  //   EnvConfig, //NOTE :-> Register EnvConfig for injection because ITS A CLASS DIRECTLY pass to inject array..
+
+  // ],
+
+  controllers: [user_dep],
+  providers: [Userservices],
+
 })
 export class AppModule {}

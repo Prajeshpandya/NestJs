@@ -1,6 +1,18 @@
-import { Controller, Get, Inject, Optional } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Inject,
+  Optional,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { UserStore } from './users.store';
 import { Subject } from 'rxjs';
+import { Userservices } from './users.services';
+import { CreateUserDto } from './dto/createUserDto';
 
 // @Controller()
 // export class user_dep {
@@ -15,21 +27,46 @@ import { Subject } from 'rxjs';
 
 //useFactory understanding!!
 
-@Controller('/users' ,)
+@Controller('/users')
 export class user_dep {
   constructor(
-    @Inject('DATABASE_CONNECTION') private eventbus: Subject<any>,
-    @Inject('EVENT_STORE') private readonly eventStore: Subject<any>,
-    private readonly userStore: UserStore
+    // @Inject('DATABASE_CONNECTION') private eventbus: Subject<any>,
+    // @Inject('EVENT_STORE') private readonly eventStore: Subject<any>,
+    // private readonly userStore: UserStore,
+    private userService: Userservices,
   ) {
-    console.log(this.eventStore);
-    console.log(this.eventbus);
-    console.log(userStore)
+    // console.log(this.eventStore);
+    // console.log(this.eventbus);
+    // console.log(userStore);
+    console.log(' console in userService ' + userService);
   }
 
+  // getUsers() {
+  //   this.userStore.getUsers();
+  //   return "Usersss..."
+  // }
+  @Post()
+  createUser(@Body() CreateUserDto: CreateUserDto) {
+    console.log('controller called');
+    this.userService.addUser(CreateUserDto);
+    return { message: 'User Created!' };
+  }
   @Get()
   getUsers() {
-    this.userStore.getUsers();
-    return "Usersss..."
+    return this.userService.getUsers();
+  }
+  @Get(':id')
+  getUser(@Param('id') id: number) {
+    return this.userService.getUser(+id);
+  }
+  @Put(':id')
+  updateUser(@Param('id') id: number, updateUserDto: CreateUserDto) {
+    this.userService.updateUser(+id, updateUserDto);
+    return { message: 'user updtaed!' };
+  }
+  @Delete(':id')
+  deleteUser(@Param('id') id: number) {
+    this.userService.deleteUser(+id);
+    return { message: 'user deleted!' };
   }
 }
