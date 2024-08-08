@@ -3,11 +3,14 @@ import {
   Controller,
   Delete,
   Get,
+  HttpStatus,
   Inject,
   Optional,
   Param,
+  ParseIntPipe,
   Post,
   Put,
+  UsePipes,
 } from '@nestjs/common';
 import { UserStore } from '../../users.store';
 import { Subject } from 'rxjs';
@@ -55,9 +58,18 @@ export class user_dep {
   getUsers() {
     return this.userService.getUsers();
   }
+
+  @UsePipes(ParseIntPipe)
   @Get(':id')
-  getUser(@Param('id') id: number) {
-    return this.userService.getUser(+id);
+  getUser(
+    @Param('id', new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })) id: number,
+  ) {
+    //learn parsePipes for data converstion. if its not expacted data it will automatically throw the error response with the statusCode 400
+    //also i can modify the response as per my requirement for that we need to create a instance and then pass options
+    //NOTE: i can also use the UsePipes for all the get data transfer in respective request
+    //We can specify the defaultValues also with usePipes and pass the value with new instance
+    //we can also apply multiple pipes as well.
+    return this.userService.getUser(id);
   }
   @Put(':id')
   updateUser(@Param('id') id: number, updateUserDto: CreateUserDto) {
