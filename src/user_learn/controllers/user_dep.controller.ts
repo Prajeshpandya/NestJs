@@ -9,10 +9,10 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { UserStore } from './users.store';
+import { UserStore } from '../../users.store';
 import { Subject } from 'rxjs';
-import { Userservices } from './users.services';
-import { CreateUserDto } from './dto/createUserDto';
+import { Userservices } from '../services/users.services';
+import { CreateUserDto } from '../dtos/createUserDto';
 
 // @Controller()
 // export class user_dep {

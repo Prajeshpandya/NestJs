@@ -1,5 +1,5 @@
 import { Controller, Get, Inject } from '@nestjs/common';
-import { UserStore } from './users.store';
+import { UserStore } from '../../users.store';
 
 @Controller('/test')
 export class test {
