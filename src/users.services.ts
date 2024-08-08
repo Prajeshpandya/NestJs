@@ -22,8 +22,7 @@ export class Userservices {
     console.log('getUser called with:', id);
     return this.store.get(id);
   }
-  getUsers() {
-    
+  getUsers() { 
     return Array.from(this.store).map(([_, user]) => user);
   }
   updateUser(id: number, user: User) {
