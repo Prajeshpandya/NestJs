@@ -15,6 +15,4 @@ import { UserStore } from "src/users.store";
     exports:[Userservices,UserStore]
 
 })
-export class userModule {
-
-}
+export class userModule {}

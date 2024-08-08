@@ -11,6 +11,8 @@ import { rejects } from 'assert';
 import { test } from './user_learn/controllers/test.controller';
 import { Userservices } from './user_learn/services/users.services';
 import { userModule } from './user_learn/user.module';
+import { jobs } from './jobs/jobs.module';
+import { cacheModule } from './cache-store/cache.module';
 
 // const IS_DEV = true;
 
@@ -112,10 +114,11 @@ import { userModule } from './user_learn/user.module';
   // controllers: [user_dep],
   // providers: [Userservices],
 
-   //sharedModule : You can use the modal in the another modal as well , also use all the exports of that module.
-   //globleModule : We can use @Globle at perticular module, so we can access that module anywhere.
-   //NestedModule : we can aslo made the nestedModule as well
-  imports:[userModule]
-
+  //sharedModule : You can use the modal in the another modal as well , also use all the exports of that module.
+  //globleModule : We can use @Globle at perticular module, so we can access that module anywhere.
+  //NestedModule : we can also made the nestedModule as well
+  //DynamicModule: we can also create a dynamic module as per our requirement and also can change the providers,services as well,
+  //for access that perticular dynamic modal or store we have to use .register , .forRoot, forFeature as well, for more details visit : https://youtu.be/WF3sGagdmgU?si=yIBPEpz8Rdyvw6G_
+  imports: [userModule, jobs, cacheModule],
 })
 export class AppModule {}
