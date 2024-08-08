@@ -13,6 +13,7 @@ import { Userservices } from './user_learn/services/users.services';
 import { userModule } from './user_learn/user.module';
 import { jobs } from './jobs/jobs.module';
 import { cacheModule } from './cache-store/cache.module';
+import { RouterModule } from '@nestjs/core';
 
 // const IS_DEV = true;
 
@@ -120,5 +121,18 @@ import { cacheModule } from './cache-store/cache.module';
   //DynamicModule: we can also create a dynamic module as per our requirement and also can change the providers,services as well,
   //for access that perticular dynamic modal or store we have to use .register , .forRoot, forFeature as well, for more details visit : https://youtu.be/WF3sGagdmgU?si=yIBPEpz8Rdyvw6G_
   imports: [userModule, jobs, cacheModule],
+
+  //dynamic Route it will be add in the imports : basically it will be use as a prefix for all the controllers like express we do
+
+  // const router = [
+  //   {
+  //       path: 'content',
+  //       module: ContentTeamModule,
+  //       children: [              //we can also pass the children as well ,if we not add that it will only apply to that controller only
+  //           {
+  //               path: 'packages',
+  //               module: PackagesModule,
+  //           },]}]
+  // RouterModule.register([{path:"user", module:userModule},{path:"job", module:jobModule}])
 })
 export class AppModule {}
