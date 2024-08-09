@@ -9,7 +9,7 @@
 1. ghjkk
 2. hgvbb -->
 
-# Pipes for validation :
+# Notes of Pipes for validation :
 ---
 we can also pass the pipes in the controller level, router level and also can configure as per the single values 
 
