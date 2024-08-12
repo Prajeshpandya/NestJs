@@ -16,6 +16,7 @@ import { UserStore } from '../../users.store';
 import { Subject } from 'rxjs';
 import { Userservices } from '../services/users.services';
 import { CreateUserDto } from '../dtos/createUserDto';
+import { ParseDatePipe } from 'src/parse-date.pipe';
 
 // @Controller()
 // export class user_dep {
@@ -62,7 +63,11 @@ export class user_dep {
   @UsePipes(ParseIntPipe)
   @Get(':id')
   getUser(
-    @Param('id', new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })) id: number,
+    @Param(
+      'id',
+      new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
+    )
+    id: number,
   ) {
     //learn parsePipes for data converstion. if its not expacted data it will automatically throw the error response with the statusCode 400
     //also i can modify the response as per my requirement for that we need to create a instance and then pass options
@@ -80,5 +85,11 @@ export class user_dep {
   deleteUser(@Param('id') id: number) {
     this.userService.deleteUser(+id);
     return { message: 'user deleted!' };
+  }
+  @Post('/test')
+  getDate(@Body('timestamp', ParseDatePipe) date) {
+    //here we can specify which type of return type we need with Eg. date:String
+    console.log(date);
+    return this.userService.testPipe();
   }
 }

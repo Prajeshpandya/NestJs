@@ -31,4 +31,7 @@ export class Userservices {
   deleteUser(id: number) {
     this.store.delete(id);
   }
+  testPipe() {
+    console.log("Test ok")
+  }
 }
