@@ -10,6 +10,7 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  UseFilters,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -18,6 +19,8 @@ import { Subject } from 'rxjs';
 import { Userservices } from '../services/users.services';
 import { CreateUserDto } from '../dtos/createUserDto';
 import { ParseDatePipe } from 'src/parse-date.pipe';
+import { idExceptionError } from 'src/exception/id-exception.filter';
+import { IdException } from 'src/exception/id-exception';
 
 // @Controller()
 // export class user_dep {
@@ -70,7 +73,7 @@ export class user_dep {
   // new ValidationPipe({transform:true}) if we have to transform the data as per we predefined so validationpipe can directly transform as per mentioned
   //whitelist:true, it trim the properties that not mentioned in dtos
   //skipMissingProperties:true, it skip the properties validation that not mentioned in dtos
-  //skipAtfirstError: as per name , only throw first error 
+  //skipAtfirstError: as per name , only throw first error
   @Get()
   getUsers() {
     return this.userService.getUsers();
@@ -98,6 +101,7 @@ export class user_dep {
     this.userService.updateUser(+id, updateUserDto);
     return { message: 'user updtaed!' };
   }
+
   @Delete(':id')
   deleteUser(@Param('id') id: number) {
     this.userService.deleteUser(+id);
@@ -108,5 +112,13 @@ export class user_dep {
     //here we can specify which type of return type we need with Eg. date:String
     console.log(date);
     return this.userService.testPipe();
+  }
+
+  @Get('/testcutomerror/:id') //custom error throw
+  @UseFilters(idExceptionError)
+  cutom(@Param('id') id: number) {
+    throw new IdException();
+    console.log(+id);
+    return { message: 'Success' };
   }
 }
