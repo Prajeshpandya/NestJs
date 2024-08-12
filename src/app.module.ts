@@ -1,4 +1,4 @@
-import { Injectable, Module } from '@nestjs/common';
+import { Injectable, Module, OnModuleInit } from '@nestjs/common';
 import { UsersController } from './user_learn/controllers/users.controller';
 import { AlbumController } from './user_learn/controllers/albums.controller';
 import { Crud } from './user_learn/controllers/crud.controller';
@@ -122,7 +122,7 @@ import { AppExceptionFilter } from './exception/app-exception.filter';
   //DynamicModule: we can also create a dynamic module as per our requirement and also can change the providers,services as well,
   //for access that perticular dynamic modal or store we have to use .register , .forRoot, forFeature as well, for more details visit : https://youtu.be/WF3sGagdmgU?si=yIBPEpz8Rdyvw6G_
   imports: [userModule, jobs, cacheModule],
-  providers:[{provide:APP_FILTER, useClass:AppExceptionFilter}]
+  providers: [{ provide: APP_FILTER, useClass: AppExceptionFilter }],
 
   //dynamic Route it will be add in the imports : basically it will be use as a prefix for all the controllers like express we do
 
@@ -137,4 +137,22 @@ import { AppExceptionFilter } from './exception/app-exception.filter';
   //           },]}]
   // RouterModule.register([{path:"user", module:userModule},{path:"job", module:jobModule}])
 })
-export class AppModule {}
+export class AppModule implements OnModuleInit {
+  onModuleInit() {
+    console.log('App module run Successfully!');
+  }
+
+  //there are more methods like that! 
+  //if we want to logs of close if we do CTRL + C, then also we can get the logs of the methods that call after the close app.. 
+  //app.enableShutdownHooks()
+}
+
+//onModuleInit()	:Called once the host module's dependencies have been resolved.
+// onApplicationBootstrap(): 	Called once all modules have been initialized, but before listening for connections.
+// onModuleDestroy()*	: Called after a termination signal (e.g., SIGTERM) has been received.
+// beforeApplicationShutdown()* :	Called after all onModuleDestroy() handlers have completed (Promises resolved or rejected);
+// once complete (Promises resolved or rejected), all existing connections will be closed (app.close() called).
+// onApplicationShutdown()*	: Called after connections close (app.close() resolves).
+
+
+//MOST IMP THINGS IN NEST.Js : MIDDLEWARE at module, GUARD,INTERCEPTOR,PIPE
