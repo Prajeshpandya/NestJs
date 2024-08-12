@@ -13,7 +13,8 @@ import { Userservices } from './user_learn/services/users.services';
 import { userModule } from './user_learn/user.module';
 import { jobs } from './jobs/jobs.module';
 import { cacheModule } from './cache-store/cache.module';
-import { RouterModule } from '@nestjs/core';
+import { APP_FILTER, RouterModule } from '@nestjs/core';
+import { AppExceptionFilter } from './exception/app-exception.filter';
 
 // const IS_DEV = true;
 
@@ -121,6 +122,7 @@ import { RouterModule } from '@nestjs/core';
   //DynamicModule: we can also create a dynamic module as per our requirement and also can change the providers,services as well,
   //for access that perticular dynamic modal or store we have to use .register , .forRoot, forFeature as well, for more details visit : https://youtu.be/WF3sGagdmgU?si=yIBPEpz8Rdyvw6G_
   imports: [userModule, jobs, cacheModule],
+  providers:[{provide:APP_FILTER, useClass:AppExceptionFilter}]
 
   //dynamic Route it will be add in the imports : basically it will be use as a prefix for all the controllers like express we do
 

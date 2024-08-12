@@ -21,6 +21,7 @@ import { CreateUserDto } from '../dtos/createUserDto';
 import { ParseDatePipe } from 'src/parse-date.pipe';
 import { idExceptionError } from 'src/exception/id-exception.filter';
 import { IdException } from 'src/exception/id-exception';
+import { AppExceptionFilter } from 'src/exception/app-exception.filter';
 
 // @Controller()
 // export class user_dep {
@@ -115,7 +116,7 @@ export class user_dep {
   }
 
   @Get('/testcutomerror/:id') //custom error throw
-  @UseFilters(idExceptionError)
+  // @UseFilters(AppExceptionFilter)
   cutom(@Param('id') id: number) {
     throw new IdException();
     console.log(+id);
