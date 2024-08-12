@@ -4,6 +4,7 @@ export interface User {
   name: string;
   age: number;
   id: number;
+  location: { country: string; city: string };
 }
 
 @Injectable()
@@ -15,6 +16,7 @@ export class Userservices {
 
   addUser(user: User) {
     console.log('addUser called with:', user);
+    console.log('UserCreate Service called');
     return this.store.set(user.id, user);
   }
 
@@ -22,7 +24,7 @@ export class Userservices {
     console.log('getUser called with:', id);
     return this.store.get(id);
   }
-  getUsers() { 
+  getUsers() {
     return Array.from(this.store).map(([_, user]) => user);
   }
   updateUser(id: number, user: User) {
@@ -32,6 +34,6 @@ export class Userservices {
     this.store.delete(id);
   }
   testPipe() {
-    console.log("Test ok")
+    console.log('Test ok');
   }
 }

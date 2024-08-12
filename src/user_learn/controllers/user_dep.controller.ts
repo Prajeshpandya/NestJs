@@ -11,6 +11,7 @@ import {
   Post,
   Put,
   UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { UserStore } from '../../users.store';
 import { Subject } from 'rxjs';
@@ -50,11 +51,26 @@ export class user_dep {
   //   return "Usersss..."
   // }
   @Post()
+  @UsePipes(new ValidationPipe({ transform: true }))
   createUser(@Body() CreateUserDto: CreateUserDto) {
     console.log('controller called');
     this.userService.addUser(CreateUserDto);
     return { message: 'User Created!' };
   }
+
+  //if the createUser is array so we have to modify and add the new ParseArrayPipe({items:CreateUserDto})
+  // @Post()
+  // @UsePipes(ValidationPipe)
+  // createUser(@Body(new ParseArrayPipe({items:CreateUserDto}),ValidationPipe) CreateUserDto: CreateUserDto) {
+  //   console.log('controller called');
+  //   this.userService.addUser(CreateUserDto);
+  //   return { message: 'User Created!' };
+  // }
+
+  // new ValidationPipe({transform:true}) if we have to transform the data as per we predefined so validationpipe can directly transform as per mentioned
+  //whitelist:true, it trim the properties that not mentioned in dtos
+  //skipMissingProperties:true, it skip the properties validation that not mentioned in dtos
+  //skipAtfirstError: as per name , only throw first error 
   @Get()
   getUsers() {
     return this.userService.getUsers();
@@ -76,6 +92,7 @@ export class user_dep {
     //we can also apply multiple pipes as well.
     return this.userService.getUser(id);
   }
+
   @Put(':id')
   updateUser(@Param('id') id: number, updateUserDto: CreateUserDto) {
     this.userService.updateUser(+id, updateUserDto);
