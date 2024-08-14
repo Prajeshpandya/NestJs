@@ -13,6 +13,7 @@ export class Userservices {
     console.log('Called the services');
   }
   private store = new Map<number, User>();
+  private recentSearchMap = new Map<string, User[]>();
 
   addUser(user: User) {
     console.log('addUser called with:', user);
@@ -35,5 +36,22 @@ export class Userservices {
   }
   testPipe() {
     console.log('Test ok');
+  }
+
+  recentSearch(params: string, user: User) {
+    if (!this.recentSearchMap.has(params)) {
+      this.recentSearchMap.set(params, []); // Initialize array if it doesn't exist
+    }
+    const users = this.recentSearchMap.get(params);
+    if (users) {
+      users.push(user); // Add the user to the array
+    }
+  }
+
+  getRecentSearch() {
+    return Array.from(this.recentSearchMap.entries()).map(([key, users]) => ({
+      key,
+      users,
+    }));
   }
 }

@@ -19,18 +19,20 @@ import {
   providers: [
     Userservices,
     UserStore,
-    {
-      provide: UserAgentOptions,
-      useValue: { accepted: ['chrome', 'firefox', 'postman'] },
-    },
+    // {
+    //   provide: UserAgentOptions,
+    //   useValue: { accepted: ['chrome', 'firefox', 'postman'] },
+    // },
   ],
   exports: [Userservices, UserStore],
 })
-export class userModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(UserAgentMiddleware).forRoutes('/users');
-    //we also specify wildcard like "/us*rs" , also "users/refs?" means refs is optional here
-    // {path:"users", method:RequestMethod.POST}
-    // after .apply , we can also specify the .exclude, so in that excludes we can specify the route for excluding perticular route.
-  }
-}
+export class userModule {}
+
+// export class userModule implements NestModule {
+//   configure(consumer: MiddlewareConsumer) {
+//     consumer.apply(UserAgentMiddleware).forRoutes('/users');
+//     //we also specify wildcard like "/us*rs" , also "users/refs?" means refs is optional here
+//     // {path:"users", method:RequestMethod.POST}
+//     // after .apply , we can also specify the .exclude, so in that excludes we can specify the route for excluding perticular route.
+//   }
+// }

@@ -12,6 +12,7 @@ import {
   Put,
   Req,
   UseFilters,
+  UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -23,6 +24,7 @@ import { ParseDatePipe } from 'src/parse-date.pipe';
 import { idExceptionError } from 'src/exception/id-exception.filter';
 import { IdException } from 'src/exception/id-exception';
 import { AppExceptionFilter } from 'src/exception/app-exception.filter';
+import { RecentSearchInterceptor } from '../interceptor/recent_search.interceptor';
 
 // @Controller()
 // export class user_dep {
@@ -56,7 +58,7 @@ export class user_dep {
   //   return "Usersss..."
   // }
   @Post()
-  @UsePipes(new ValidationPipe({ transform: true }))
+  // @UsePipes(new ValidationPipe({ transform: true }))
   createUser(@Body() CreateUserDto: CreateUserDto) {
     console.log('controller called');
     this.userService.addUser(CreateUserDto);
@@ -76,13 +78,21 @@ export class user_dep {
   //whitelist:true, it trim the properties that not mentioned in dtos
   //skipMissingProperties:true, it skip the properties validation that not mentioned in dtos
   //skipAtfirstError: as per name , only throw first error
+
+
   @Get()
   getUsers(@Req() req: Request) {
     console.log(req['user_a']);
     return this.userService.getUsers();
   }
 
-  @UsePipes(ParseIntPipe)
+  @Get('/recentsearch')
+  recentSearch() {
+    return this.userService.getRecentSearch();
+  }
+
+  // @UsePipes(ParseIntPipe)
+  @UseInterceptors(RecentSearchInterceptor)
   @Get(':id')
   getUser(
     @Param(
@@ -116,6 +126,8 @@ export class user_dep {
     console.log(date);
     return this.userService.testPipe();
   }
+
+ 
 
   @Get('/testcutomerror/:id') //custom error throw
   // @UseFilters(AppExceptionFilter)
