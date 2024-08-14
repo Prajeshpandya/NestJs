@@ -10,6 +10,7 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  Req,
   UseFilters,
   UsePipes,
   ValidationPipe,
@@ -76,7 +77,8 @@ export class user_dep {
   //skipMissingProperties:true, it skip the properties validation that not mentioned in dtos
   //skipAtfirstError: as per name , only throw first error
   @Get()
-  getUsers() {
+  getUsers(@Req() req: Request) {
+    console.log(req['user_a']);
     return this.userService.getUsers();
   }
 
