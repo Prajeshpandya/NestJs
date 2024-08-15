@@ -11,10 +11,11 @@ import {
   UserAgentMiddleware,
   UserAgentOptions,
 } from 'src/middlewares/user_agent.middleware';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Global() //globle module that can use anywhere now
 @Module({
-  imports: [],
+  // imports: [ConfigModule], //here we use globle env so now its not requuired
   controllers: [UsersController, AlbumController, Crud, user_dep, test],
   providers: [
     Userservices,

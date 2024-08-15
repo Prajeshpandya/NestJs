@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 export interface User {
   name: string;
@@ -9,7 +10,8 @@ export interface User {
 
 @Injectable()
 export class Userservices {
-  constructor() {
+  constructor(private configService: ConfigService) {
+    console.log('env', configService.get('secret_key'));
     console.log('Called the services');
   }
   private store = new Map<number, User>();
