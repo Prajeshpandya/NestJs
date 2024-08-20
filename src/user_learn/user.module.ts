@@ -15,7 +15,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Global() //globle module that can use anywhere now
 @Module({
-  // imports: [ConfigModule], //here we use globle env so now its not requuired
+  // imports: [ConfigModule], //here we use globle env so now its not required
   controllers: [UsersController, AlbumController, Crud, user_dep, test],
   providers: [
     Userservices,

@@ -15,8 +15,8 @@ export class RecentSearchInterceptor implements NestInterceptor {
     const request = ctx.getRequest();
     console.log(request.params);
 
-    return next.handle().pipe(
-      tap((result) => {
+    return next.handle().pipe(            //pipe describe that here the function are called of rxjs 
+      tap((result) => {                   //with this we can get the response of given controller or modal's interceptor
         console.log(result);
         if (request.params) {
           this.UserService.recentSearch(request.params, result);

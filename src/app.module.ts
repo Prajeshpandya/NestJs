@@ -16,6 +16,8 @@ import { cacheModule } from './cache-store/cache.module';
 import { APP_FILTER, RouterModule } from '@nestjs/core';
 import { AppExceptionFilter } from './exception/app-exception.filter';
 import { ConfigModule } from '@nestjs/config';
+import mongoose from 'mongoose';
+import { MongooseModule } from '@nestjs/mongoose';
 
 // const IS_DEV = true;
 
@@ -130,9 +132,10 @@ import { ConfigModule } from '@nestjs/config';
       envFilePath: ['.env'],
       cache: true,
       // expandVariables:true //we can use template litrals in the env file
-      isGlobal:true
+      isGlobal: true, //we can specify the diffrent file name rather .env
     }),
-  ], //we can specify the diffrent file name rather .env
+    MongooseModule.forRoot('mongodb://localhost:27017/nest_app_db'),
+  ],
   providers: [{ provide: APP_FILTER, useClass: AppExceptionFilter }],
 
   //dynamic Route it will be add in the imports : basically it will be use as a prefix for all the controllers like express we do
